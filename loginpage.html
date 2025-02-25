@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page / VRR</title>
+    <link rel="stylesheet" href="loginpage.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Login</h2>
+            <form>
+                <div class="input-box">
+                    <input type="text" placeholder="username" id="Username" required>
+                </div>
+                <div class="input-box">
+                    <input type="password" placeholder="password" id="password" required>
+                </div>
+                <button type="button" onclick="redirectToWeb()">Login</button>
+                <p class="forgot-password">Forgot your password? <a href="forgetpass.html">Click here</a></p>
+            </form>
+        </div>
+    </div>
+    <script>
+    function redirectToWeb() {
+        window.location.href = 'web.html';
+    }
+    </script>
+</body>
+</html>

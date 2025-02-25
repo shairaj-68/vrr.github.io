@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><b>Virtual Study Room - Video Meet</b></title>
+  <style>
+    body {
+      background: linear-gradient(-45deg, #6a11cb,#1a34da);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8); /* Light background */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: rgb(9, 1, 1);
+      margin-bottom: 20px;
+    }
+
+    .video-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 20px;
+    }
+
+    video {
+      width: 300px;
+      height: 200px;
+      margin: 10px;
+      border-radius: 10px;
+      border: 2px solid #fff;
+    }
+
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .control-btn {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .control-btn:hover {
+      background-color: #45a049;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1><b> Virtual Study Room - Video Meet</b></h1>
+  
+  <div class="video-container">
+    <video id="localVideo" autoplay muted></video> <!-- Local user's video -->
+    <video id="remoteVideo" autoplay></video> <!-- Remote user's video -->
+  </div>
+  
+  <div class="controls">
+    <button class="control-btn" id="startCallBtn">Start Call</button>
+    <button class="control-btn" id="endCallBtn" style="display:none;">End Call</button>
+  </div>
+</div>
+
+<script>
+  let localStream;
+  let peerConnection;
+  let ws;
+  const startCallBtn = document.getElementById('startCallBtn');
+  const endCallBtn = document.getElementById('endCallBtn');
+  const localVideo = document.getElementById('localVideo');
+  const remoteVideo = document.getElementById('remoteVideo');
+  const userId = Math.random().toString(36).substring(2, 15);
+
+
+  // STUN server for WebRTC (for peer-to-peer communication)
+  const configuration = {
+    iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+  };
+
+  // Connect to WebSocket signaling server
+  ws = new WebSocket('ws://localhost:8080');
+  
+  ws.onopen = () => {
+    console.log('Connected to signaling server');
+    ws.send(JSON.stringify({ type: 'join', id: userId }));
+  };
+
+  ws.onmessage = async (message) => {
+    const data = JSON.parse(message.data);
+    
+    switch(data.type) {
+      case 'offer':
+        if (!peerConnection) createPeerConnection();
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(data.data));
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+        ws.send(JSON.stringify({
+          type: 'answer',
+          target: data.sender,
+          data: answer
+        }));
+        break;
+        
+      case 'answer':
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(data.data));
+        break;
+        
+      case 'candidate':
+        await peerConnection.addIceCandidate(new RTCIceCandidate(data.data));
+        break;
+    }
+  };
+
+
+  // Access user's webcam and microphone
+  async function startLocalStream() {
+    try {
+      localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      localVideo.srcObject = localStream;
+    } catch (err) {
+      console.error("Error accessing media devices:", err);
+    }
+  }
+
+  // Create WebRTC peer connection and set up event listeners
+  function createPeerConnection() {
+    peerConnection = new RTCPeerConnection(configuration);
+
+    // Add local media tracks to the connection
+    localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+    // Set up event listener for when remote stream is received
+    peerConnection.ontrack = (event) => {
+      remoteVideo.srcObject = event.streams[0];
+    };
+
+    // Handle ICE candidates (used for peer-to-peer connectivity)
+    peerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        // Normally, you would send the candidate to the other peer via signaling
+        console.log("New ICE Candidate:", event.candidate);
+      }
+    };
+  }
+
+  // Start the video call
+  startCallBtn.addEventListener('click', async () => {
+    await startLocalStream();  // Get local video stream
+    createPeerConnection();    // Create WebRTC connection
+
+    startCallBtn.style.display = 'none';   // Hide "Start Call" button
+    endCallBtn.style.display = 'inline-block';  // Show "End Call" button
+
+  // Create and send offer
+  const offer = await peerConnection.createOffer();
+  await peerConnection.setLocalDescription(offer);
+  ws.send(JSON.stringify({
+    type: 'offer',
+    target: 'all',
+    data: offer
+  }));
+
+
+    // Normally, you would send the offer to the remote peer using a signaling server
+  });
+
+  // End the video call
+  endCallBtn.addEventListener('click', () => {
+    if (peerConnection) {
+      peerConnection.close();  // Close the WebRTC connection
+      peerConnection = null;   // Clean up the connection object
+    }
+    if (localStream) {
+      localStream.getTracks().forEach(track => track.stop());  // Stop the video and audio tracks
+      localStream = null;  // Clean up the local stream
+    }
+    startCallBtn.style.display = 'inline-block';  // Show the "Start Call" button again
+    endCallBtn.style.display = 'none';  // Hide the "End Call" button
+  });
+</script>
+
+</body>
+</html>

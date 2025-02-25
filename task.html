@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Manager</title>
+    <link rel="stylesheet" href="task.css">
+</head>
+
+<body>
+    <header>
+        <h1><b>Smart Task Manager</b></h1>
+    </header>
+    <main>
+        
+        <section id="task-form-section">
+            <h2>Add a Task</h2>
+            <form id="task-form">
+                <input type="text" id="task-title" placeholder="Task Title" required>
+                <textarea id="task-desc" placeholder="Task Description"></textarea>
+                <input type="date" id="task-date" required>
+                <select id="task-priority">
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+                <button type="submit">Add Task</button>
+            </form>
+        </section>
+
+        
+        <section id="task-list-section">
+            <h2>Your Tasks</h2>
+            <ul id="task-list"></ul>
+        </section>
+
+        
+        <section id="analytics-section">
+            <h2>Task Analytics</h2>
+            <p>Total Tasks: <span id="total-tasks">0</span></p>
+            <p>Completed Tasks: <span id="completed-tasks">0</span></p>
+        </section>
+    </main>
+    <script src="taskkk.js"></script>
+</body>
+
+</html>

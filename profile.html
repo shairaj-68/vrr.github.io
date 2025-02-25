@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="profile.css">
+</head>
+
+<body>
+
+    <div class=" profile-container ">
+        <div class="profile-header ">
+            <h1>User Profile</h1>
+        </div>
+
+        <div class="profile-info ">
+            <div class="avatar ">
+                <img id="profile-pic " src="c:\Users\shair\Downloads\WhatsApp_Image_2024-12-27_at_11.29.20_7a743d85-removebg-preview.png" alt="Profile Picture ">
+                <input type="file " id="upload-photo " accept="image/* ">
+            </div>
+
+            <div class="user-details ">
+                <form id="profile-form ">
+                    <div class="form-group ">
+                        <label for="username ">Username</label>
+                        <input type="text " id="username " placeholder="username " name="username" >
+                    </div>
+                    <div class="form-group ">
+                        <label for="email ">Email</label>
+                        <input type="email " id="email " placeholder="email " name="username" >
+                    </div>
+                    <div class="form-group ">
+                        <label for="bio ">Bio</label>
+                        <textarea id="bio " placeholder="enter your details" name="bio " rows="4 "></textarea>
+                    </div>
+                    <button type="button" onclick=" login ()"><a href="web.html">  Save Changes </a></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+         function login ()
+    {
+    var username = document.getElementById("Username") .value;
+    var email = document.getElementById("email").value;
+if (username == "shai" && email == "1234")
+{    
+     window.location.href = 'web.html';
+}
+else
+{
+alert("Wrong entry invalid");
+}
+        }
+    
+    </script>
+</body>
+
+</html>

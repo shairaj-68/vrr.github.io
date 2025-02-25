@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Study Room</title>
+    <link rel="stylesheet" href="draft.css">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        
+        .container {
+            display: flex;
+            height: 100vh; 
+        }
+
+    
+        .sidebar {
+                width: 300px;
+                background-color: white;
+                color: rgb(135, 18, 212);
+                display: flex;
+                flex-direction: column;
+                padding: 0;
+                margin: 0;
+                transition: transform 0.3s ease;
+  }
+
+  img{
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    padding: 15px;
+    align-content: center;
+    
+  }
+  .sidebar h2 {
+    font-size: 2.0rem;
+    margin-bottom: 2rem;
+    color: #9c0be5;
+  }
+  .sidebar ul {
+    list-style: none;
+  }
+  .sidebar ul li {
+    padding: 25px 0;
+    display: flex;
+    text-align: left;
+    transition: background-color 0.3s ease;
+  }
+  .sidebar ul li:hover {
+    background-color: #9415ee;
+    border-radius: 5px;
+    cursor: pointer;
+    transform: translateX(10px);
+  }
+  .sidebar ul li a {
+    color: #a521e7;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-left: 10px;
+    transition: color 0.3s;
+  }
+  .sidebar ul li:hover a {
+    color: #d1f7c4;
+  }
+        
+        .content {
+            flex: 1;
+            background: linear-gradient(90deg, #4a00e0, #8e2de2);
+            color: white;
+            overflow-y: auto;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-width: 0; /* Prevent flex overflow */
+        }
+
+
+
+        header {
+            text-align: left;
+            padding: 25px;
+            margin: 0;
+        }
+
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            overflow: auto;
+            padding: 10px;
+        }
+
+
+        #video-chat,
+        #notes-section,
+        #task-manager,
+        #pomodoro-timer {
+            flex: 1 1 300px;
+            min-width: 150px;
+            max-width: 350px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px;
+            overflow: auto;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            #video-chat,
+            #notes-section,
+            #task-manager,
+            #pomodoro-timer {
+                flex: 1 1 100%;
+                min-width: unset;
+                max-width: unset;
+            }
+        }
+
+
+        footer {
+            text-align: center;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="sidebar">
+            <img src="C:\Users\shair\Downloads\ROOM-removebg-preview.png" alt="Virtual Study Room Logo">
+
+            <h2><i><b>VIRTUAL STUDY          ROOM</b></i></h2>
+            <ul>
+                
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="video.html">Video meet</a></li>
+                <li><a href="task.html">Task</a></li>
+                <li><a href="aboutus.html">About us</a></li>
+                <li><a href="settings.html">Settings</a></li>
+                <li><a href="loginpage.html">Login</a></li>
+                <li><a href="help.html">Help</a></li>
+
+            </ul>
+        </div>
+
+        
+        <div class="content">
+            <header>
+                <h1><b>Virtual Study Room</b></h1>
+            </header>
+            <main>
+                <div id="video-chat">
+                    
+                </div>
+                <div id="notes-section">
+                    <textarea id="notes" placeholder="Share your notes here..."></textarea>
+                    <button id="save-notes">Save Notes</button>
+                </div>                
+                <div id="task-manager">
+                    <input type="text" id="task-input" placeholder="Add a new task...">
+                    <button id="add-task"><a href="task.html">Add Task</a></button>
+                    <ul id="task-list"></ul>
+                </div>
+                <div class="pomodoro-container">
+                    <h1>Pomodoro Timer</h1>
+                    <div class="timer-display">
+                        <span id="minutes">25</span>:<span id="seconds">00</span>
+                    </div>
+                    <div class="controls">
+                        <button id="start">Start</button>
+                        <button id="pause">Pause</button>
+                        <button id="reset">Reset</button>
+                    </div>
+                </div>
+            </main>
+            <footer>
+                <p>&copy; 2024 Virtual Study Room</p>
+            </footer>
+        </div>
+    </div>
+    <script>
+         document.addEventListener("DOMContentLoaded", function () {
+    const notesInput = document.getElementById("notes");
+    const saveButton = document.getElementById("save-notes");
+    const saveToFileButton = document.createElement("button");
+    saveToFileButton.textContent = "Save Notes to File";
+    saveButton.parentElement.appendChild(saveToFileButton); 
+    saveButton.addEventListener("click", function () {
+        const notes = notesInput.value;
+        localStorage.setItem("userNotes", notes);
+        alert("Notes saved successfully!");
+    });
+
+    
+    saveToFileButton.addEventListener("click", async function () {
+        try {
+            const notes = notesInput.value;
+            const fileHandle = await window.showSaveFilePicker({
+                suggestedName: "my_notes.txt",
+                types: [
+                    {
+                        description: "Text Files",
+                        accept: { "text/plain": [".txt"] },
+                    },
+                ],
+            });
+            const writableStream = await fileHandle.createWritable();
+            await writableStream.write(notes);
+            await writableStream.close();
+            alert("Notes saved to file successfully!");
+        } catch (err) {
+            console.error("Error saving file:", err);
+            alert("Failed to save notes to file.");
+        }
+    });
+});
+      
+document.addEventListener("DOMContentLoaded", function () {
+    const taskInput = document.getElementById("task-input");
+    const addTaskButton = document.getElementById("add-task");
+    const taskList = document.getElementById("task-list");
+    const apiUrl = "file:///C:/Users/shair/OneDrive/Documents/html/index.html/project.html/user.html/login.html/task.html"; 
+    addTaskButton.addEventListener("click", function () {
+        const task = taskInput.value.trim();
+        if (task) {
+            const taskItem = document.createElement("li");
+            taskItem.textContent = task;
+            taskList.appendChild(taskItem);
+            sendTaskToWebsite(task);
+            taskInput.value = "";
+        } else {
+            alert("Please enter a task before adding.");
+        }
+    });
+    async function sendTaskToWebsite(task) {
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ task: task }),
+            });
+
+            if (response.ok) {
+                alert("Task successfully sent to the other website!");
+            } else {
+                alert("Failed to send task. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error sending task:", error);
+            alert("Please click ok to do Task.");
+        }
+    }
+});
+
+    
+document.addEventListener("DOMContentLoaded", function () {
+    let minutes = 25;
+    let seconds = 0;
+    let timerInterval = null;
+    const minutesDisplay = document.getElementById("minutes");
+    const secondsDisplay = document.getElementById="seconds";
+    const startButton = document.getElementById("start");
+    const pauseButton = document.getElementById="pause";
+    const resetButton = document.getElementById="reset";
+    function updateDisplay() {
+        minutesDisplay.textContent = String(minutes).padStart(2, "0");
+        secondsDisplay.textContent = String(seconds).padStart(2, "0");
+    }
+
+    
+    function startTimer() {
+        if (timerInterval) return; 
+        timerInterval = setInterval(() => {
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    clearInterval(timerInterval);
+                    alert("Time's up!");
+                } else {
+                    minutes--;
+                    seconds = 59;
+                }
+            } else {
+                seconds--;
+            }
+            updateDisplay();
+        }, 1000);
+    }
+    function pauseTimer() {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    function resetTimer() {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        minutes = 25;
+        seconds = 0;
+        updateDisplay();
+    }
+    startButton.addEventListener("click", startTimer);
+    pauseButton.addEventListener("click", pauseTimer);
+    resetButton.addEventListener("click", resetTimer);
+    updateDisplay();
+});
+
+
+    </script>
+</body>
+</html>

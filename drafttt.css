@@ -1,0 +1,228 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    
+  
+  }
+  body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f0f8f5;
+    overflow-x: hidden;
+    text-align: left;
+  }
+  .sidebar {
+    width: 250px;
+    background-color: white;
+    color: rgb(135, 18, 212);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    transition: transform 0.3s ease;
+  }
+  img{
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+    padding: 10px;
+    align-content: left;
+    
+  }
+  .sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #9c0be5;
+  }
+  .sidebar ul {
+    list-style: none;
+  }
+  .sidebar ul li {
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  .sidebar ul li:hover {
+    background-color: #9415ee;
+    border-radius: 5px;
+    cursor: pointer;
+    transform: translateX(10px);
+  }
+  .sidebar ul li a {
+    color: #a521e7;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-left: 10px;
+    transition: color 0.3s;
+  }
+  .sidebar ul li:hover a {
+    color: #d1f7c4;
+  }
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    text-align-last: center;
+  }
+  .form-group {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+  }
+
+  .form-group label {
+    font-weight: bold;
+  }
+
+  .save-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #8613f0;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes grow {
+    from {
+      width: 0;
+    }
+    to {
+      width: 50px;
+    }
+  }* 
+ 
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    box-sizing: border-box;
+}
+
+header {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 2px solid #ffffff;
+}
+
+main {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#video-chat {
+    width: 100%;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+    border-radius: 10px;
+    transition: background 0.3s;
+}
+
+#video-chat:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+#notes-section, #task-manager, #pomodoro-timer {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
+    transition: transform 0.3s;
+}
+
+#notes-section:hover, #task-manager:hover, #pomodoro-timer:hover {
+    transform: scale(1.02);
+}
+
+textarea {
+    width: 300%;
+    height: 300px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: border 0.3s;
+}
+
+textarea:focus {
+    border: 1px solid #6a11cb;
+    outline: none;
+}
+
+button {
+    background: #6a11cb;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background: #2575fc;
+    transform: scale(1.05);
+}
+
+#task-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#task-list li {
+    background: #e2e2e2;
+    color: #000;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+#task-list li:hover {
+    background: #d1d1d1;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background: rgba(0, 0, 0, 0.7);
+    position: relative;
+}

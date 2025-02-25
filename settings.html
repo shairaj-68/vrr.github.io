@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Your Website</title>
+    <link rel="stylesheet" href="setting.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Account Settings</h1>
+            <nav>
+                <ul>
+                    <li><a href="web.html">Home</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="settings-container">
+        <section class="profile-section">
+            <h2>Profile</h2>
+            <form id="settings-form">
+                <!-- Profile Picture Update -->
+                <div class="form-group">
+                    <label for="upload-photo">Change Profile Picture:</label>
+                    <input type="file" id="upload-photo" accept="image/*">
+                    <img id="profile-pic" src="default-avatar.png" alt="Profile Picture">
+                </div>
+
+                <!-- Username Update -->
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Enter Username">
+                </div>
+
+                <!-- Email Update -->
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="Enter Email">
+                </div>
+
+                <!-- Password Update -->
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter New Password">
+                </div>
+
+                <!-- Notifications -->
+                <div class="form-group">
+                    <label for="notifications">Notifications:</label>
+                    <input type="checkbox" id="notifications" checked>
+                    <span>Receive email notifications</span>
+                </div>
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+
+        <!-- Other Settings Section -->
+        <section class="preferences-section">
+            <h2>Preferences</h2>
+            <form id="preferences-form">
+                <div class="form-group">
+                    <label for="language">Language:</label>
+                    <select id="language">
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="timezone">Timezone:</label>
+                    <select id="timezone">
+                        <option value="GMT">GMT</option>
+                        <option value="EST">EST</option>
+                        <option value="PST">PST</option>
+                    </select>
+                </div>
+
+                <button type="submit">Save Preferences</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+
+    <script src="setting.js"></script>
+</body>
+
+</html>
